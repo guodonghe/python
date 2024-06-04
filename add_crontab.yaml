@@ -15,7 +15,7 @@
         user: "root"
 ''' ansible 删除crontab '''
 - name: Remove cron job to kill SRS process
-  hosts: 121.5.254.253
+  hosts: all
   become: yes
   tasks:
     - name: Ensure cron job is absent
