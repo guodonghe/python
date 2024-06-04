@@ -1,0 +1,26 @@
+'''ansible添加crontab'''
+- name: Add cron job to kill srs process every Wednesday at 3 AM
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure cron job is present
+      cron:
+        name: "Kill SRS process"
+        job: "/usr/bin/killall -9 srs >/dev/null 2>&1"
+        minute: "0"
+        hour: "3"
+        day: "*"
+        month: "*"
+        weekday: "3"
+        user: "root"
+''' ansible 删除crontab '''
+- name: Remove cron job to kill SRS process
+  hosts: 121.5.254.253
+  become: yes
+  tasks:
+    - name: Ensure cron job is absent
+      cron:
+        name: "Kill SRS process"
+        state: absent
+        user: "root"
+
