@@ -1,0 +1,22 @@
+- name: Check srs process running time
+  hosts: your_target_hosts
+  tasks:
+    - name: Find srs process PID
+      shell: "pgrep srs"
+      register: srs_pid
+      ignore_errors: yes
+
+    - name: Check if srs process is running
+      fail:
+        msg: "srs process is not running."
+      when: srs_pid.stdout == ""
+
+    - name: Get srs process running time
+      shell: "ps -p {{ srs_pid.stdout }} -o etime="
+      register: srs_runtime
+      when: srs_pid.stdout != ""
+
+    - name: Print srs process running time
+      debug:
+        msg: "srs process has been running for {{ srs_runtime.stdout }}"
+      when: srs_pid.stdout != ""
